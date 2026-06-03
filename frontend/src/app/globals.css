@@ -1,0 +1,652 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --font-primary: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --bg-app: #090d16;
+  --bg-card: rgba(17, 24, 39, 0.7);
+  --bg-card-hover: rgba(31, 41, 55, 0.85);
+  --border-glass: rgba(255, 255, 255, 0.08);
+  --border-active: rgba(99, 102, 241, 0.4);
+  --primary: #6366f1;
+  --primary-glow: rgba(99, 102, 241, 0.2);
+  --primary-grad: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  --secondary-grad: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  --text-main: #f3f4f6;
+  --text-muted: #9ca3af;
+  --text-chat: #e5e7eb;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-app);
+  color: var(--text-main);
+  font-family: var(--font-primary);
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* 1. Dashboard Layout */
+.app-layout {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  position: relative;
+}
+
+.column {
+  height: 100%;
+  overflow-y: auto;
+  border-right: 1px solid var(--border-glass);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Scrollbars */
+.column::-webkit-scrollbar,
+.messages-list::-webkit-scrollbar,
+.timeline-days-list::-webkit-scrollbar {
+  width: 6px;
+}
+.column::-webkit-scrollbar-thumb,
+.messages-list::-webkit-scrollbar-thumb,
+.timeline-days-list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+.column::-webkit-scrollbar-thumb:hover,
+.messages-list::-webkit-scrollbar-thumb:hover,
+.timeline-days-list::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.chat-col {
+  width: 440px;
+  min-width: 400px;
+  flex-shrink: 0;
+  background-color: rgba(10, 15, 26, 0.95);
+}
+
+.timeline-col {
+  width: 380px;
+  min-width: 340px;
+  flex-shrink: 0;
+  background-color: rgba(13, 20, 35, 0.9);
+}
+
+.map-col {
+  flex-grow: 1;
+  background-color: #0c101b;
+  position: relative;
+}
+
+/* 2. Chat Panel Styling */
+.chat-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.chat-header {
+  padding: 24px;
+  border-bottom: 1px solid var(--border-glass);
+}
+
+.chat-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.chat-header h1 {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  background: linear-gradient(120deg, #818cf8, #3b82f6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.new-trip-btn {
+  background: var(--border-glass);
+  color: var(--text-main);
+  border: 1px solid var(--border-glass);
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.new-trip-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.itineraries-picker-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.itineraries-picker-section label {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.picker-wrapper {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  width: 100%;
+}
+
+.itineraries-picker-section select {
+  flex-grow: 1;
+  background: rgba(17, 24, 39, 0.8);
+  border: 1px solid var(--border-glass);
+  color: var(--text-main);
+  padding: 10px;
+  border-radius: 8px;
+  outline: none;
+  font-size: 13px;
+  cursor: pointer;
+  width: 0; /* lets flex-grow size the select correctly */
+}
+
+.delete-trip-btn {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+.delete-trip-btn:hover {
+  background: rgba(239, 68, 68, 0.25);
+  border-color: #ef4444;
+  color: #ff6b6b;
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.15);
+}
+
+.trash-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.messages-list {
+  flex-grow: 1;
+  padding: 24px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.chat-welcome {
+  text-align: center;
+  margin: auto 0;
+  padding: 20px;
+}
+
+.chat-welcome h3 {
+  font-size: 18px;
+  margin-bottom: 8px;
+  color: #fff;
+}
+
+.chat-welcome p {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+
+.prompt-examples {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.prompt-examples button {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-glass);
+  color: var(--text-muted);
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: left;
+  font-size: 13px;
+  transition: all 0.2s ease;
+}
+.prompt-examples button:hover {
+  background: rgba(99, 102, 241, 0.08);
+  color: #fff;
+  border-color: var(--primary);
+  transform: translateY(-1px);
+}
+
+.message-bubble {
+  max-width: 85%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+.message-bubble.user {
+  align-self: flex-end;
+  background: var(--primary-grad);
+  color: #fff;
+  padding: 12px 16px;
+  border-radius: 16px 16px 2px 16px;
+  box-shadow: 0 4px 12px var(--primary-glow);
+}
+.message-bubble.user .bubble-sender {
+  display: none;
+}
+
+.message-bubble.model {
+  align-self: flex-start;
+  background: var(--bg-card);
+  border: 1px solid var(--border-glass);
+  color: var(--text-chat);
+  padding: 14px 18px;
+  border-radius: 16px 16px 16px 2px;
+}
+
+.bubble-sender {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 2px;
+}
+
+.bubble-text {
+  white-space: pre-wrap;
+}
+
+/* Chat Input Footer */
+.chat-footer-form {
+  padding: 20px 24px;
+  border-top: 1px solid var(--border-glass);
+  display: flex;
+  gap: 12px;
+  background-color: rgba(10, 15, 26, 0.95);
+}
+
+.chat-footer-form input {
+  flex-grow: 1;
+  background: rgba(17, 24, 39, 0.8);
+  border: 1px solid var(--border-glass);
+  border-radius: 10px;
+  color: var(--text-main);
+  padding: 14px 16px;
+  outline: none;
+  font-size: 14px;
+  transition: border-color 0.2s ease;
+}
+.chat-footer-form input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px var(--primary-glow);
+}
+
+.chat-footer-form button {
+  background: var(--primary-grad);
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  padding: 0 24px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 14px;
+  transition: opacity 0.2s ease, transform 0.1s ease;
+}
+.chat-footer-form button:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+.chat-footer-form button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* typing loader */
+.typing-loader {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  padding: 6px 0;
+}
+.typing-loader span {
+  width: 6px;
+  height: 6px;
+  background-color: var(--text-muted);
+  border-radius: 50%;
+  animation: typing 1.4s infinite ease-in-out both;
+}
+.typing-loader span:nth-child(1) { animation-delay: -0.32s; }
+.typing-loader span:nth-child(2) { animation-delay: -0.16s; }
+@keyframes typing {
+  0%, 80%, 100% { transform: scale(0); }
+  40% { transform: scale(1.0); }
+}
+
+
+/* 3. Itinerary Timeline Styling */
+.timeline-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.timeline-header {
+  padding: 24px;
+  border-bottom: 1px solid var(--border-glass);
+}
+
+.timeline-header h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.3px;
+}
+
+.timeline-empty {
+  margin: auto;
+  text-align: center;
+  padding: 40px;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.timeline-days-list {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.day-header-badge {
+  background: rgba(99, 102, 241, 0.15);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  color: #818cf8;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.day-activities-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-left: 2px dashed rgba(255, 255, 255, 0.08);
+  margin-left: 16px;
+  padding-left: 20px;
+}
+
+.activity-card {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--border-glass);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  display: flex;
+}
+.activity-card:last-child {
+  margin-bottom: 0;
+}
+
+.activity-card.active, .activity-card:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--primary);
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.15);
+  transform: translateX(4px);
+}
+
+.activity-left-bar {
+  position: absolute;
+  left: -37px;
+  top: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.activity-connector-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid var(--bg-app);
+}
+
+.activity-number-icon {
+  position: absolute;
+  left: -20px;
+  top: -10px;
+  display: none; /* Hide default, but we can enable if wanted */
+}
+
+/* Show number inside card top-right or next to title */
+.activity-content {
+  flex-grow: 1;
+}
+
+.activity-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.activity-time {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--primary);
+  text-transform: uppercase;
+}
+
+.activity-weather-badge {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  color: var(--text-muted);
+  border: 1px solid var(--border-glass);
+}
+
+.activity-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 6px;
+}
+
+.activity-description {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+
+/* 4. Map Panel & Placeholder Styling */
+.map-loading-placeholder, .map-empty-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #0c101b;
+  z-index: 10;
+  overflow: hidden;
+}
+
+.map-loading-placeholder p {
+  margin-top: 16px;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255, 255, 255, 0.05);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 1s infinite linear;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.map-empty-placeholder .ambient-bg {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(99,102,241,0.12) 0%, rgba(0,0,0,0) 70%);
+  filter: blur(50px);
+}
+
+.placeholder-content {
+  position: relative;
+  z-index: 12;
+  text-align: center;
+  max-width: 320px;
+  padding: 20px;
+}
+
+.globe-icon {
+  width: 64px;
+  height: 64px;
+  color: rgba(99, 102, 241, 0.4);
+  margin-bottom: 20px;
+  animation: pulse-slow 3s infinite ease-in-out;
+}
+@keyframes pulse-slow {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.05); }
+}
+
+.placeholder-content h3 {
+  font-size: 18px;
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+.placeholder-content p {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+
+/* 5. Custom Leaflet Marker Styling */
+.custom-map-marker {
+  overflow: visible !important;
+}
+
+.map-marker-pin {
+  width: 32px;
+  height: 32px;
+  background: var(--primary-grad);
+  border: 2px solid #fff;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4), 0 0 0 0 var(--primary);
+  transition: all 0.3s ease;
+  animation: markerDrop 0.5s cubic-bezier(0.25, 0.8, 0.25, 1) both;
+}
+
+.marker-number {
+  transform: rotate(45deg);
+  color: #fff;
+  font-weight: 700;
+  font-size: 11px;
+}
+
+.custom-map-marker:hover .map-marker-pin,
+.map-marker-pin.pulsing {
+  transform: rotate(-45deg) scale(1.15);
+  background: linear-gradient(135deg, #818cf8 0%, #6366f1 100%);
+  box-shadow: 0 6px 15px rgba(99, 102, 241, 0.5), 0 0 0 10px rgba(99, 102, 241, 0);
+  animation: pulseMarker 1.5s infinite ease-out;
+}
+
+@keyframes markerDrop {
+  0% { transform: translateY(-40px) rotate(-45deg); opacity: 0; }
+  100% { transform: translateY(0) rotate(-45deg); opacity: 1; }
+}
+
+@keyframes pulseMarker {
+  0% { box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4), 0 0 0 0 rgba(99, 102, 241, 0.4); }
+  70% { box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4), 0 0 0 12px rgba(99, 102, 241, 0); }
+  100% { box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4), 0 0 0 0 rgba(99, 102, 241, 0); }
+}
+
+/* Map Popups */
+.leaflet-popup-content-wrapper {
+  background: rgba(15, 23, 42, 0.95) !important;
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-glass) !important;
+  border-radius: 12px !important;
+  color: #fff !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
+}
+
+.leaflet-popup-tip {
+  background: rgba(15, 23, 42, 0.95) !important;
+  border: 1px solid var(--border-glass) !important;
+}
+
+.map-popup-card {
+  padding: 4px;
+  max-width: 200px;
+}
+
+.popup-time {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--primary);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.popup-title {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: #fff;
+}
+
+.popup-description {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.3;
+}

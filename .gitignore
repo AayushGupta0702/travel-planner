@@ -1,0 +1,23 @@
+# Python virtual environments & caching
+backend/venv/
+backend/__pycache__/
+backend/*.pyc
+backend/.env
+backend/travel_planner.db
+backend/travel_planner.db-journal
+backend/test_models.py
+
+# Next.js build and dependencies
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+
+# IDE & Editor files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
