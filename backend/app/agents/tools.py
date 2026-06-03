@@ -1,6 +1,7 @@
 import json
 import httpx
 from datetime import datetime
+from typing import Optional
 from sqlmodel import select
 from app.database import get_db_session
 from app.models import PlacesCache, Itinerary
